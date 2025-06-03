@@ -1,0 +1,69 @@
+
+swagger: '2.0'
+info:
+  title: AdventureWorks SQL Connector
+  description: Execute SQL queries against AdventureWorks2019
+  version: 1.0.0
+host: 192.168.108.27:5000
+basePath: /
+schemes:
+  - http
+paths:
+  /sql-tool:
+    post:
+      tags:
+        - SQL
+      summary: Execute SQL query
+      description: Runs parameterized queries against SQL Server
+      operationId: ExecuteSQL
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Query parameters
+          required: true
+          schema:
+            type: object
+            required:
+              - query
+            properties:
+              query:
+                type: string
+                description: Search term for territories
+                x-ms-summary: "Region Name"
+                x-ms-visibility: important
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              sql:
+                type: string
+                description: Executed SQL statement
+                x-ms-summary: "SQL Query"
+                x-ms-visibility: advanced
+              data:
+                type: array
+                description: Query results
+                items:
+                  type: object
+                x-ms-summary: "Results"
+                x-ms-visibility: important
+        400:
+          description: Invalid input
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        500:
+          description: Server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
